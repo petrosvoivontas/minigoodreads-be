@@ -2,6 +2,7 @@ package gr.hua.dit.minigoodreads.service;
 
 import gr.hua.dit.minigoodreads.entity.BooksList;
 import gr.hua.dit.minigoodreads.repository.BooksListRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,12 +20,12 @@ public class BooksListServiceImpl implements BooksListService {
     }
 
     @Override
-    public List<BooksList> getListsForUser(String uid) {
+    public List<BooksList> getListsForUser(@NotNull String uid) {
         return repository.findBooksListsByUidEqualsOrderByListIdAsc(uid);
     }
 
     @Override
-    public BooksList saveList(BooksList list) {
+    public BooksList saveList(@NotNull BooksList list) {
         BooksList lastAddedList = repository.findFirstByUidEqualsOrderByListIdDesc(list.getUid());
         final int listId;
         if (lastAddedList != null) {

@@ -44,13 +44,6 @@ public class BooksList {
         this.name = name;
     }
 
-    public BooksList(String resourceId, int listId, String uid, String name) {
-        this.resourceId = resourceId;
-        this.listId = listId;
-        this.uid = uid;
-        this.name = name;
-    }
-
     public String getResourceId() {
         return resourceId;
     }
