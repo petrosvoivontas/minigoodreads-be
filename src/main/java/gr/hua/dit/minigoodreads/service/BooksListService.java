@@ -10,4 +10,6 @@ public interface BooksListService {
     List<BooksList> getListsForUser(@NotNull String uid);
 
     BooksList saveList(@NotNull BooksList list);
+
+    boolean renameList(int listId, @NotNull String uid, @NotNull String newName);
 }

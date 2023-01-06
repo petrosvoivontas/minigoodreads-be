@@ -36,4 +36,15 @@ public class BooksListServiceImpl implements BooksListService {
         list.setListId(listId);
         return repository.save(list);
     }
+
+    @Override
+    public boolean renameList(int listId, @NotNull String uid, @NotNull String newName) {
+        BooksList list = repository.findFirstByUidAndListId(uid, listId);
+        if (list != null) {
+            list.setName(newName);
+            repository.save(list);
+            return true;
+        }
+        return false;
+    }
 }

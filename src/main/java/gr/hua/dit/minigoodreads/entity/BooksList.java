@@ -63,4 +63,8 @@ public class BooksList {
     public void setListId(int listId) {
         this.listId = listId;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

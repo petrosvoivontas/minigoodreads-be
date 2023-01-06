@@ -2,6 +2,7 @@ package gr.hua.dit.minigoodreads.controller;
 
 import gr.hua.dit.minigoodreads.dto.books_list.CreateBooksListDto;
 import gr.hua.dit.minigoodreads.dto.books_list.GetBooksListDto;
+import gr.hua.dit.minigoodreads.dto.books_list.RenameBooksListDto;
 import gr.hua.dit.minigoodreads.entity.BooksList;
 import gr.hua.dit.minigoodreads.service.BooksListService;
 import jakarta.validation.Valid;
@@ -41,5 +42,18 @@ public class BooksListController {
         BooksList finalList = booksListService.saveList(list);
         GetBooksListDto response = modelMapper.map(finalList, GetBooksListDto.class);
         return ResponseEntity.created(URI.create("/lists/" + response.getListId())).body(response);
+    }
+
+    @PatchMapping(
+        value = "/{id}",
+        consumes = "application/json"
+    )
+    ResponseEntity<Void> renameList(@PathVariable("id") int listId, @Valid @RequestBody RenameBooksListDto renameBooksListDto) {
+        boolean changed = booksListService.renameList(listId, "uid", renameBooksListDto.getName());
+        if (changed) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
