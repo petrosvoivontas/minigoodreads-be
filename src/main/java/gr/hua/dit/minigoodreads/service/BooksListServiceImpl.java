@@ -47,4 +47,15 @@ public class BooksListServiceImpl implements BooksListService {
         }
         return false;
     }
+
+    @Override
+    public boolean deleteList(int listId, @NotNull String uid) {
+        try {
+            long listsDeleted = repository.deleteByListIdAndUid(listId, uid);
+            return listsDeleted > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

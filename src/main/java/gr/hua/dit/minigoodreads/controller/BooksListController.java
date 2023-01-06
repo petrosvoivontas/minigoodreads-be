@@ -56,4 +56,14 @@ public class BooksListController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<Void> deleteList(@PathVariable("id") int listId) {
+        boolean deleted = booksListService.deleteList(listId, "uid");
+        if (deleted) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 }

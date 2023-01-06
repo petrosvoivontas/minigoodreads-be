@@ -12,4 +12,6 @@ public interface BooksListService {
     BooksList saveList(@NotNull BooksList list);
 
     boolean renameList(int listId, @NotNull String uid, @NotNull String newName);
+
+    boolean deleteList(int listId, @NotNull String uid);
 }
