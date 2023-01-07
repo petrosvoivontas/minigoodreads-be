@@ -8,6 +8,7 @@ import gr.hua.dit.minigoodreads.entity.BookInList;
 import gr.hua.dit.minigoodreads.service.BookInListService;
 import gr.hua.dit.minigoodreads.service.Result;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class BookInListController extends BaseController {
     }
 
     @PostMapping
-    ResponseEntity<ResponseWrapper<Void>> addBookToList(@PathVariable("listId") int listId, @Valid @RequestBody AddBookInListDto requestBody) {
+    ResponseEntity<ResponseWrapper<Void>> addBookToList(@NotEmpty @PathVariable("listId") int listId, @Valid @RequestBody AddBookInListDto requestBody) {
         requestBody.setListId(listId);
         Result<BookInList, BookInListErrors> result = service.addBookToList("uid", requestBody);
         return switch (result) {
@@ -40,11 +41,20 @@ public class BookInListController extends BaseController {
     }
 
     @GetMapping
-    ResponseEntity<ResponseWrapper<Set<GetBookInListDto>>> getBooksInList(@PathVariable("listId") int listId) {
+    ResponseEntity<ResponseWrapper<Set<GetBookInListDto>>> getBooksInList(@NotEmpty @PathVariable("listId") int listId) {
         Result<Set<BookInList>, BookInListErrors> result = service.getBooksInList("uid", listId);
         return switch (result) {
             case Result.Success<Set<BookInList>, BookInListErrors> s -> handleGetBooksInListSuccess(s);
             case Result.Error<Set<BookInList>, BookInListErrors> error -> throw handleError(error.getError());
+        };
+    }
+
+    @DeleteMapping("/{bookId}")
+    ResponseEntity<Void> removeBookFromList(@NotEmpty @PathVariable("listId") int listId, @NotEmpty @PathVariable("bookId") String bookId) {
+        Result<Void, BookInListErrors> result = service.removeBookFromList("uid", listId, bookId);
+        return switch (result) {
+            case Result.Success<Void, BookInListErrors> ignored -> ResponseEntity.ok().build();
+            case Result.Error<Void, BookInListErrors> error -> throw handleError(error.getError());
         };
     }
 

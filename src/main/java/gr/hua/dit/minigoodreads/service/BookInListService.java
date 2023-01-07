@@ -13,5 +13,5 @@ public interface BookInListService {
 
     Result<Set<BookInList>, BookInListErrors> getBooksInList(@NotNull String uid, int listId);
 
-    // remove book from list
+    Result<Void, BookInListErrors> removeBookFromList(@NotNull String uid, int listId, @NotNull String bookId);
 }

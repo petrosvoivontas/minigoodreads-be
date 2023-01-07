@@ -5,7 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 
 public enum BookInListErrors implements RestError {
-    LIST_NOT_FOUND(HttpStatus.BAD_REQUEST, "book_in_list.list.notfound");
+    LIST_NOT_FOUND(HttpStatus.BAD_REQUEST, "book_in_list.list.notfound"),
+    BOOK_NOT_REMOVED_FROM_LIST(HttpStatus.INTERNAL_SERVER_ERROR, "book_in_list.book.not_removed");
 
     private final HttpStatus httpStatus;
     private final String messageCode;

@@ -47,4 +47,14 @@ public class BookInListServiceImpl implements BookInListService {
         Set<BookInList> booksInList = bookInListRepository.findByUidAndBooksListResourceId(uid, list.getResourceId());
         return new Result.Success<>(booksInList);
     }
+
+    @Override
+    public Result<Void, BookInListErrors> removeBookFromList(@NotNull String uid, int listId, @NotNull String bookId) {
+        BooksList list = booksListRepository.findFirstByUidAndListId(uid, listId);
+        if (list == null) {
+            return new Result.Error<>(BookInListErrors.LIST_NOT_FOUND);
+        }
+        long rowsDeleted = bookInListRepository.deleteByUidAndBooksListResourceIdAndBookId(uid, list.getResourceId(), bookId);
+        return rowsDeleted > 0 ? new Result.Success<>(null) : new Result.Error<>(BookInListErrors.BOOK_NOT_REMOVED_FROM_LIST);
+    }
 }
