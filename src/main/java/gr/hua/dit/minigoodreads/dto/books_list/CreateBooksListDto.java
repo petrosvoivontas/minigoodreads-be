@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public class CreateBooksListDto {
 
-    @NotBlank(message = "A list must have a non-empty name")
+    @NotBlank(message = "{list.name.notempty}")
     private String name;
 
     public CreateBooksListDto() {

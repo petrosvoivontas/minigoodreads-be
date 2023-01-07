@@ -1,5 +1,6 @@
-package gr.hua.dit.minigoodreads.controller;
+package gr.hua.dit.minigoodreads.controller.bookslist;
 
+import gr.hua.dit.minigoodreads.controller.BaseController;
 import gr.hua.dit.minigoodreads.dto.books_list.CreateBooksListDto;
 import gr.hua.dit.minigoodreads.dto.books_list.GetBooksListDto;
 import gr.hua.dit.minigoodreads.dto.books_list.RenameBooksListDto;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/lists")
-public class BooksListController {
+public class BooksListController extends BaseController {
 
     private final BooksListService booksListService;
     private final ModelMapper modelMapper;

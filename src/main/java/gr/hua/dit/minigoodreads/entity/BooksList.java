@@ -2,6 +2,8 @@ package gr.hua.dit.minigoodreads.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(
     name = "books_list",
@@ -35,6 +37,9 @@ public class BooksList {
         nullable = false
     )
     private String name;
+
+    @OneToMany(mappedBy = "booksList")
+    private Set<BookInList> booksInList;
 
     public BooksList() {
     }
