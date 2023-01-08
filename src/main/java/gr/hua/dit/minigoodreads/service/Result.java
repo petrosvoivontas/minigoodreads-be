@@ -10,6 +10,10 @@ public abstract sealed class Result<T, R extends RestError> permits Result.Succe
         @Nullable
         private final T data;
 
+        public Success() {
+            this.data = null;
+        }
+
         public Success(@Nullable T data) {
             this.data = data;
         }
