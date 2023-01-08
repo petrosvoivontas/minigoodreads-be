@@ -1,11 +1,13 @@
 package gr.hua.dit.minigoodreads.controller.bookslist;
 
 import gr.hua.dit.minigoodreads.controller.BaseController;
+import gr.hua.dit.minigoodreads.controller.ResponseWrapper;
 import gr.hua.dit.minigoodreads.dto.books_list.CreateBooksListDto;
 import gr.hua.dit.minigoodreads.dto.books_list.GetBooksListDto;
 import gr.hua.dit.minigoodreads.dto.books_list.RenameBooksListDto;
 import gr.hua.dit.minigoodreads.entity.BooksList;
 import gr.hua.dit.minigoodreads.service.BooksListService;
+import gr.hua.dit.minigoodreads.service.Result;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -27,22 +29,26 @@ public class BooksListController extends BaseController {
     }
 
     @GetMapping
-    List<GetBooksListDto> getAll() {
-        return booksListService.getListsForUser("uid")
+    ResponseEntity<ResponseWrapper<List<GetBooksListDto>>> getAll() {
+        List<GetBooksListDto> lists = booksListService.getListsForUser("uid")
+            .getData()
             .stream()
             .map(list -> modelMapper.map(list, GetBooksListDto.class))
             .toList();
+        return ResponseEntity.ok(new ResponseWrapper<>(lists));
     }
 
     @PostMapping(
         consumes = "application/json",
         produces = "application/json"
     )
-    ResponseEntity<GetBooksListDto> postBooksList(@Valid @RequestBody CreateBooksListDto booksListDto) {
+    ResponseEntity<ResponseWrapper<GetBooksListDto>> postBooksList(@Valid @RequestBody CreateBooksListDto booksListDto) {
         BooksList list = new BooksList("uid", booksListDto.getName());
-        BooksList finalList = booksListService.saveList(list);
-        GetBooksListDto response = modelMapper.map(finalList, GetBooksListDto.class);
-        return ResponseEntity.created(URI.create("/lists/" + response.getListId())).body(response);
+        Result.Success<BooksList, BooksListErrors> result = booksListService.saveList(list);
+        GetBooksListDto response = modelMapper.map(result.getData(), GetBooksListDto.class);
+        return ResponseEntity
+            .created(URI.create("/lists/" + response.getListId()))
+            .body(new ResponseWrapper<>(response));
     }
 
     @PatchMapping(
@@ -50,21 +56,19 @@ public class BooksListController extends BaseController {
         consumes = "application/json"
     )
     ResponseEntity<Void> renameList(@PathVariable("id") int listId, @Valid @RequestBody RenameBooksListDto renameBooksListDto) {
-        boolean changed = booksListService.renameList(listId, "uid", renameBooksListDto.getName());
-        if (changed) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        Result<Void, BooksListErrors> result = booksListService.renameList(listId, "uid", renameBooksListDto.getName());
+        return switch (result) {
+            case Result.Success<Void, BooksListErrors> ignored -> ResponseEntity.noContent().build();
+            case Result.Error<Void, BooksListErrors> error -> throw handleError(error.getError());
+        };
     }
 
     @DeleteMapping("/{id}")
     ResponseEntity<Void> deleteList(@PathVariable("id") int listId) {
-        boolean deleted = booksListService.deleteList(listId, "uid");
-        if (deleted) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.internalServerError().build();
-        }
+        Result<Void, BooksListErrors> result = booksListService.deleteList(listId, "uid");
+        return switch (result) {
+            case Result.Success<Void, BooksListErrors> ignored -> ResponseEntity.ok().build();
+            case Result.Error<Void, BooksListErrors> error -> throw handleError(error.getError());
+        };
     }
 }

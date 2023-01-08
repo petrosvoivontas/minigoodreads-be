@@ -55,6 +55,6 @@ public class BookInListServiceImpl implements BookInListService {
             return new Result.Error<>(BookInListErrors.LIST_NOT_FOUND);
         }
         long rowsDeleted = bookInListRepository.deleteByUidAndBooksListResourceIdAndBookId(uid, list.getResourceId(), bookId);
-        return rowsDeleted > 0 ? new Result.Success<>(null) : new Result.Error<>(BookInListErrors.BOOK_NOT_REMOVED_FROM_LIST);
+        return rowsDeleted > 0 ? new Result.Success<>() : new Result.Error<>(BookInListErrors.BOOK_NOT_REMOVED_FROM_LIST);
     }
 }
