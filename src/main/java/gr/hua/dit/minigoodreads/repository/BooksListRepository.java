@@ -5,11 +5,11 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Set;
 
 public interface BooksListRepository extends JpaRepository<BooksList, String> {
 
-    List<BooksList> findBooksListsByUidEqualsOrderByListIdAsc(String uid);
+    Set<BooksList> findBooksListsByUidEqualsOrderByListIdAsc(String uid);
 
     @Nullable
     BooksList findFirstByUidEqualsOrderByListIdDesc(String uid);

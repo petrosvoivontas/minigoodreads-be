@@ -4,10 +4,11 @@ import gr.hua.dit.minigoodreads.entity.BooksList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Set;
 
 public interface BooksListService {
 
-    List<BooksList> getListsForUser(@NotNull String uid);
+    Set<BooksList> getListsForUser(@NotNull String uid);
 
     BooksList saveList(@NotNull BooksList list);
 

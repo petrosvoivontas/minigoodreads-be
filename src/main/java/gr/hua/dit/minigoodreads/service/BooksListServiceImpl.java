@@ -5,7 +5,7 @@ import gr.hua.dit.minigoodreads.repository.BooksListRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 
 @Service
 public class BooksListServiceImpl implements BooksListService {
@@ -20,7 +20,7 @@ public class BooksListServiceImpl implements BooksListService {
     }
 
     @Override
-    public List<BooksList> getListsForUser(@NotNull String uid) {
+    public Set<BooksList> getListsForUser(@NotNull String uid) {
         return repository.findBooksListsByUidEqualsOrderByListIdAsc(uid);
     }
 
