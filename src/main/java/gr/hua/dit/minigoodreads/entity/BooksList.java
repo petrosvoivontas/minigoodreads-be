@@ -1,6 +1,7 @@
 package gr.hua.dit.minigoodreads.entity;
 
 import jakarta.persistence.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -18,7 +19,7 @@ import java.util.Set;
         )
     }
 )
-public class BooksList {
+public class BooksList implements Comparable<BooksList> {
 
     @Id
     @Column(name = "resource_id", length = 40)
@@ -38,7 +39,7 @@ public class BooksList {
     )
     private String name;
 
-    @OneToMany(mappedBy = "booksList")
+    @OneToMany(mappedBy = "booksList", cascade = CascadeType.REMOVE)
     private Set<BookInList> booksInList;
 
     public BooksList() {
@@ -46,6 +47,11 @@ public class BooksList {
 
     public BooksList(String uid, String name) {
         this.uid = uid;
+        this.name = name;
+    }
+
+    public BooksList(int listId, String name) {
+        this.listId = listId;
         this.name = name;
     }
 
@@ -71,5 +77,10 @@ public class BooksList {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public int compareTo(@NotNull BooksList other) {
+        return listId - other.listId;
     }
 }
