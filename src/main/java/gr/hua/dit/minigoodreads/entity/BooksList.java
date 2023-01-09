@@ -29,7 +29,7 @@ public class BooksList implements Comparable<BooksList> {
     @Column(name = "list_id", columnDefinition = "SMALLINT", nullable = false)
     private int listId;
 
-    @Column(name = "uid", length = 40, nullable = false)
+    @Column(name = "uid", length = 40, nullable = true)
     private String uid;
 
     @Column(

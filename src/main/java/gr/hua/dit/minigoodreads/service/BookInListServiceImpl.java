@@ -27,7 +27,7 @@ public class BookInListServiceImpl implements BookInListService {
 
     @Override
     public Result<BookInList, BookInListErrors> addBookToList(@NotNull String uid, @NotNull AddBookInListDto addBookInListDto) {
-        BooksList list = booksListRepository.findFirstByUidAndListId(uid, addBookInListDto.getListId());
+        BooksList list = booksListRepository.findFirstByListIdAndUidOrUidNull(addBookInListDto.getListId(), uid);
         if (list == null) {
             return new Result.Error<>(BookInListErrors.LIST_NOT_FOUND);
         }
@@ -40,7 +40,7 @@ public class BookInListServiceImpl implements BookInListService {
 
     @Override
     public Result<Set<BookInList>, BookInListErrors> getBooksInList(@NotNull String uid, int listId) {
-        BooksList list = booksListRepository.findFirstByUidAndListId(uid, listId);
+        BooksList list = booksListRepository.findFirstByListIdAndUidOrUidNull(listId, uid);
         if (list == null) {
             return new Result.Error<>(BookInListErrors.LIST_NOT_FOUND);
         }
@@ -50,7 +50,7 @@ public class BookInListServiceImpl implements BookInListService {
 
     @Override
     public Result<Void, BookInListErrors> removeBookFromList(@NotNull String uid, int listId, @NotNull String bookId) {
-        BooksList list = booksListRepository.findFirstByUidAndListId(uid, listId);
+        BooksList list = booksListRepository.findFirstByListIdAndUidOrUidNull(listId, uid);
         if (list == null) {
             return new Result.Error<>(BookInListErrors.LIST_NOT_FOUND);
         }

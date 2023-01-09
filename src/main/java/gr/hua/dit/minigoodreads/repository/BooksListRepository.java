@@ -9,13 +9,16 @@ import java.util.Set;
 
 public interface BooksListRepository extends JpaRepository<BooksList, String> {
 
-    Set<BooksList> findBooksListsByUidEqualsOrderByListIdAsc(String uid);
+    Set<BooksList> findByUidEqualsOrUidNullOrderByListIdAsc(String uid);
 
     @Nullable
-    BooksList findFirstByUidEqualsOrderByListIdDesc(String uid);
+    BooksList findFirstByUidAndListIdGreaterThanEqual(String uid, int listIdGreaterThan);
 
     @Nullable
-    BooksList findFirstByUidAndListId(String uid, int listId);
+    BooksList findFirstByListIdAndUidOrUidNull(int listId, String uid);
+
+    @Nullable
+    BooksList findFirstByListIdAndUidEquals(int listId, String uid);
 
     @Transactional
     long deleteByListIdAndUid(int listId, String uid);

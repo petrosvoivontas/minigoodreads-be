@@ -1,6 +1,5 @@
 package gr.hua.dit.minigoodreads.config;
 
-import gr.hua.dit.minigoodreads.books_lists.PredefinedBooksLists;
 import gr.hua.dit.minigoodreads.dto.book_in_list.AddBookInListDto;
 import gr.hua.dit.minigoodreads.dto.book_in_list.GetBookInListDto;
 import gr.hua.dit.minigoodreads.dto.books_list.GetBooksListDto;
@@ -41,11 +40,6 @@ public class ModelMapperConfig {
                 source.getBookAuthor(),
                 source.getInsertTs().getTime()
             );
-        });
-
-        modelMapper.typeMap(PredefinedBooksLists.class, BooksList.class).setProvider(request -> {
-            PredefinedBooksLists source = (PredefinedBooksLists) request.getSource();
-            return new BooksList(source.getListId(), source.getName());
         });
 
         return modelMapper;
