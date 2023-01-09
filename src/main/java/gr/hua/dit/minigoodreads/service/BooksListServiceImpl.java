@@ -30,7 +30,11 @@ public class BooksListServiceImpl implements BooksListService {
     }
 
     @Override
-    public Result.Success<BooksList, BooksListErrors> saveList(@NotNull BooksList list) {
+    public Result<BooksList, BooksListErrors> saveList(@NotNull BooksList list) {
+        BooksList listWithSameName = repository.findFirstByUidAndName(list.getUid(), list.getName());
+        if (listWithSameName != null) {
+            return new Result.Error<>(BooksListErrors.DUPLICATE_LIST);
+        }
         BooksList lastAddedList = repository.findFirstByUidAndListIdGreaterThanEqual(list.getUid(), FIRST_CUSTOM_LIST_ID);
         final int listId;
         if (lastAddedList != null) {

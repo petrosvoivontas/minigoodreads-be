@@ -10,7 +10,7 @@ public interface BooksListService {
 
     Result.Success<Set<BooksList>, BooksListErrors> getListsForUser(@NotNull String uid);
 
-    Result.Success<BooksList, BooksListErrors> saveList(@NotNull BooksList list);
+    Result<BooksList, BooksListErrors> saveList(@NotNull BooksList list);
 
     Result<Void, BooksListErrors> renameList(int listId, @NotNull String uid, @NotNull String newName);
 

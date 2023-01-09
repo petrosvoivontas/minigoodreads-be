@@ -20,6 +20,9 @@ public interface BooksListRepository extends JpaRepository<BooksList, String> {
     @Nullable
     BooksList findFirstByListIdAndUidEquals(int listId, String uid);
 
+    @Nullable
+    BooksList findFirstByUidAndName(String uid, String name);
+
     @Transactional
     long deleteByListIdAndUid(int listId, String uid);
 }

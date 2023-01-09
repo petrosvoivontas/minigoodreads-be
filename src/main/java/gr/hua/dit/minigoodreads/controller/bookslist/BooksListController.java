@@ -38,17 +38,25 @@ public class BooksListController extends BaseController {
         return ResponseEntity.ok(new ResponseWrapper<>(lists));
     }
 
+    private ResponseEntity<ResponseWrapper<GetBooksListDto>> handleSaveListSuccess(Result.Success<BooksList, BooksListErrors> result) {
+        GetBooksListDto response = modelMapper.map(result.getData(), GetBooksListDto.class);
+        return ResponseEntity
+            .created(URI.create("/lists/" + response.getListId()))
+            .body(new ResponseWrapper<>(response));
+    }
+
     @PostMapping(
         consumes = "application/json",
         produces = "application/json"
     )
     ResponseEntity<ResponseWrapper<GetBooksListDto>> postBooksList(@Valid @RequestBody CreateBooksListDto booksListDto) {
-        BooksList list = new BooksList("uid", booksListDto.getName());
-        Result.Success<BooksList, BooksListErrors> result = booksListService.saveList(list);
-        GetBooksListDto response = modelMapper.map(result.getData(), GetBooksListDto.class);
-        return ResponseEntity
-            .created(URI.create("/lists/" + response.getListId()))
-            .body(new ResponseWrapper<>(response));
+        String listName = booksListDto.getName().trim();
+        BooksList list = new BooksList("uid", listName);
+        Result<BooksList, BooksListErrors> result = booksListService.saveList(list);
+        return switch (result) {
+            case Result.Success<BooksList, BooksListErrors> s -> handleSaveListSuccess(s);
+            case Result.Error<BooksList, BooksListErrors> error -> throw handleError(error.getError());
+        };
     }
 
     @PatchMapping(
