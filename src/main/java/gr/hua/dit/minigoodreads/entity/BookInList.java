@@ -5,7 +5,13 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "book_in_list", uniqueConstraints = {@UniqueConstraint(name = "uc_book_id_uid", columnNames = {"book_id", "uid", "list_resource_id"})})
+@Table(
+    name = "book_in_list",
+    uniqueConstraints = {@UniqueConstraint(
+        name = "uc_book_id_uid",
+        columnNames = {"book_id", "uid", "list_resource_id"}
+    )}
+)
 public class BookInList {
 
     @Id
@@ -33,13 +39,26 @@ public class BookInList {
     private Date insertTs;
 
     @ManyToOne
-    @JoinColumn(name = "list_resource_id", nullable = false, foreignKey = @ForeignKey(name = "fk_books_list"))
+    @JoinColumn(
+        name = "list_resource_id",
+        nullable = false,
+        foreignKey = @ForeignKey(name = "fk_books_list")
+    )
+//    @Fetch(FetchMode.JOIN)
     private BooksList booksList;
+
+    @OneToOne(mappedBy = "bookInList", cascade = CascadeType.REMOVE)
+    private ReadingProgress readingProgress;
 
     public BookInList() {
     }
 
-    public BookInList(String bookId, String coverImageUrl, String bookTitle, String bookAuthor) {
+    public BookInList(
+        String bookId,
+        String coverImageUrl,
+        String bookTitle,
+        String bookAuthor
+    ) {
         this.bookId = bookId;
         this.coverImageUrl = coverImageUrl;
         this.bookTitle = bookTitle;
