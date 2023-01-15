@@ -1,15 +1,20 @@
 package gr.hua.dit.minigoodreads.dto.book_in_list;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class AddBookInListDto {
 
     private int listId;
 
+    @NotBlank(message = "{book_in_list.add.book_id.empty}")
     private String bookId;
 
     private String coverImageUrl;
 
+    @NotBlank(message = "{book_in_list.add.book_title.empty}")
     private String bookTitle;
 
+    @NotBlank(message = "{book_in_list.add.book_author.empty}")
     private String bookAuthor;
 
     public AddBookInListDto() {
