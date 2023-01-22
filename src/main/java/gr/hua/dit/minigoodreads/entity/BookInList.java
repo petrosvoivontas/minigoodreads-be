@@ -44,7 +44,6 @@ public class BookInList {
         nullable = false,
         foreignKey = @ForeignKey(name = "fk_books_list")
     )
-//    @Fetch(FetchMode.JOIN)
     private BooksList booksList;
 
     @OneToOne(mappedBy = "bookInList", cascade = CascadeType.REMOVE)
