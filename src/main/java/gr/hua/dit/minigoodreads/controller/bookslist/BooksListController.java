@@ -41,7 +41,7 @@ public class BooksListController extends BaseController {
     private ResponseEntity<ResponseWrapper<GetBooksListDto>> handleSaveListSuccess(Result.Success<BooksList, BooksListErrors> result) {
         GetBooksListDto response = modelMapper.map(result.getData(), GetBooksListDto.class);
         return ResponseEntity
-            .created(URI.create("/lists/" + response.getListId()))
+            .created(URI.create("/lists/" + response.listId()))
             .body(new ResponseWrapper<>(response));
     }
 
@@ -50,7 +50,7 @@ public class BooksListController extends BaseController {
         produces = "application/json"
     )
     ResponseEntity<ResponseWrapper<GetBooksListDto>> postBooksList(@Valid @RequestBody CreateBooksListDto booksListDto) {
-        String listName = booksListDto.getName().trim();
+        String listName = booksListDto.name().trim();
         BooksList list = new BooksList("uid", listName);
         Result<BooksList, BooksListErrors> result = booksListService.saveList(list);
         return switch (result) {
@@ -64,7 +64,7 @@ public class BooksListController extends BaseController {
         consumes = "application/json"
     )
     ResponseEntity<Void> renameList(@PathVariable("id") int listId, @Valid @RequestBody RenameBooksListDto renameBooksListDto) {
-        Result<Void, BooksListErrors> result = booksListService.renameList(listId, "uid", renameBooksListDto.getName());
+        Result<Void, BooksListErrors> result = booksListService.renameList(listId, "uid", renameBooksListDto.name());
         return switch (result) {
             case Result.Success<Void, BooksListErrors> ignored -> ResponseEntity.noContent().build();
             case Result.Error<Void, BooksListErrors> error -> throw handleError(error.getError());

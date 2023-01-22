@@ -17,14 +17,14 @@ public class ModelMapperConfig {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.typeMap(BooksList.class, GetBooksListDto.class).addMappings(
-            mapper -> {
-                mapper.map(
-                    BooksList::getResourceId,
-                    GetBooksListDto::setResourceId
+        modelMapper.typeMap(BooksList.class, GetBooksListDto.class).setProvider(
+            request -> {
+                BooksList source = (BooksList) request.getSource();
+                return new GetBooksListDto(
+                    source.getResourceId(),
+                    source.getListId(),
+                    source.getName()
                 );
-                mapper.map(BooksList::getListId, GetBooksListDto::setListId);
-                mapper.map(BooksList::getName, GetBooksListDto::setName);
             });
 
         modelMapper.typeMap(
@@ -33,10 +33,10 @@ public class ModelMapperConfig {
         ).setProvider(request -> {
             AddBookInListDto source = (AddBookInListDto) request.getSource();
             return new BookInList(
-                source.getBookId(),
-                source.getCoverImageUrl(),
-                source.getBookTitle(),
-                source.getBookAuthor()
+                source.bookId(),
+                source.coverImageUrl(),
+                source.bookTitle(),
+                source.bookAuthor()
             );
         });
 

@@ -1,4 +1,11 @@
 package gr.hua.dit.minigoodreads.exception;
 
-public record ErrorResponseBody(String code, String errorMessage) {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record ErrorResponseBody(
+    @JsonProperty("code")
+    String code,
+    @JsonProperty("errorMessage")
+    String errorMessage
+) {
 }

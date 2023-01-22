@@ -1,46 +1,19 @@
 package gr.hua.dit.minigoodreads.dto.book_in_list;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 
-public class AddBookInListDto {
-
-    private int listId;
-
+public record AddBookInListDto(
     @NotBlank(message = "{book_in_list.add.book_id.empty}")
-    private String bookId;
-
-    private String coverImageUrl;
-
+    @JsonProperty("bookId")
+    String bookId,
+    @JsonProperty("coverImageUrl")
+    String coverImageUrl,
     @NotBlank(message = "{book_in_list.add.book_title.empty}")
-    private String bookTitle;
-
+    @JsonProperty("bookTitle")
+    String bookTitle,
     @NotBlank(message = "{book_in_list.add.book_author.empty}")
-    private String bookAuthor;
-
-    public AddBookInListDto() {
-    }
-
-    public int getListId() {
-        return listId;
-    }
-
-    public String getBookId() {
-        return bookId;
-    }
-
-    public String getCoverImageUrl() {
-        return coverImageUrl;
-    }
-
-    public String getBookTitle() {
-        return bookTitle;
-    }
-
-    public String getBookAuthor() {
-        return bookAuthor;
-    }
-
-    public void setListId(int listId) {
-        this.listId = listId;
-    }
+    @JsonProperty("bookAuthor")
+    String bookAuthor
+) {
 }

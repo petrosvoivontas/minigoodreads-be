@@ -1,16 +1,11 @@
 package gr.hua.dit.minigoodreads.dto.books_list;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 
-public class CreateBooksListDto {
-
+public record CreateBooksListDto(
     @NotBlank(message = "{list.name.notempty}")
-    private String name;
-
-    public CreateBooksListDto() {
-    }
-
-    public String getName() {
-        return name;
-    }
+    @JsonProperty("name")
+    String name
+) {
 }

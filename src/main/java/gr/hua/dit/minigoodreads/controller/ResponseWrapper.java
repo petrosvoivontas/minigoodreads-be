@@ -1,4 +1,6 @@
 package gr.hua.dit.minigoodreads.controller;
 
-public record ResponseWrapper<T>(T data) {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record ResponseWrapper<T>(@JsonProperty("data") T data) {
 }

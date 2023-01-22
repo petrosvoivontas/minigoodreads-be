@@ -1,10 +1,12 @@
 package gr.hua.dit.minigoodreads.dto.book_in_list;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public record GetBookInListDto(
-    String bookId,
-    String coverImageUrl,
-    String bookTitle,
-    String bookAuthor,
-    long insertTs
+    @JsonProperty("bookId") String bookId,
+    @JsonProperty("coverImageUrl") String coverImageUrl,
+    @JsonProperty("bookTitle") String bookTitle,
+    @JsonProperty("bookAuthor") String bookAuthor,
+    @JsonProperty("insertTs") long insertTs
 ) {
 }

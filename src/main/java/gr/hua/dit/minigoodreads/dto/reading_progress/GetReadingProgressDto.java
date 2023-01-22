@@ -1,4 +1,11 @@
 package gr.hua.dit.minigoodreads.dto.reading_progress;
 
-public record GetReadingProgressDto(int currentPage, long lastUpdated) {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record GetReadingProgressDto(
+    @JsonProperty("currentPage")
+    int currentPage,
+    @JsonProperty("lastUpdated")
+    long lastUpdated
+) {
 }

@@ -1,5 +1,6 @@
 package gr.hua.dit.minigoodreads.dto.reading_progress;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 
 public record UpdateReadingProgressDto(
@@ -7,6 +8,7 @@ public record UpdateReadingProgressDto(
         value = 1,
         message = "{reading_progress.current_page.notempty}"
     )
+    @JsonProperty("currentPage")
     int currentPage
 ) {
 }

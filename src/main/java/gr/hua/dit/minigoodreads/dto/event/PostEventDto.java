@@ -1,5 +1,6 @@
 package gr.hua.dit.minigoodreads.dto.event;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import gr.hua.dit.minigoodreads.events.EventConstants;
 import gr.hua.dit.minigoodreads.validation.StringRange;
 import jakarta.validation.constraints.NotNull;
@@ -20,9 +21,11 @@ public record PostEventDto(
         },
         message = "{event.name.invalid}"
     )
+    @JsonProperty("eventName")
     String eventName,
 
     @NotNull(message = "{event.params.null}")
+    @JsonProperty("eventParams")
     Map<String, Object> eventParams
 ) {
 }

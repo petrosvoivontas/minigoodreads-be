@@ -19,19 +19,33 @@ public class BookInListServiceImpl implements BookInListService {
     private final BooksListRepository booksListRepository;
     private final ModelMapper modelMapper;
 
-    public BookInListServiceImpl(BookInListRepository bookInListRepository, BooksListRepository booksListRepository, ModelMapper modelMapper) {
+    public BookInListServiceImpl(
+        BookInListRepository bookInListRepository,
+        BooksListRepository booksListRepository,
+        ModelMapper modelMapper
+    ) {
         this.bookInListRepository = bookInListRepository;
         this.booksListRepository = booksListRepository;
         this.modelMapper = modelMapper;
     }
 
     @Override
-    public Result<BookInList, BookInListErrors> addBookToList(@NotNull String uid, @NotNull AddBookInListDto addBookInListDto) {
-        BooksList list = booksListRepository.findFirstByListIdAndUid(addBookInListDto.getListId(), uid);
+    public Result<BookInList, BookInListErrors> addBookToList(
+        @NotNull String uid,
+        int listId,
+        @NotNull AddBookInListDto addBookInListDto
+    ) {
+        BooksList list = booksListRepository.findFirstByListIdAndUid(
+            listId,
+            uid
+        );
         if (list == null) {
             return new Result.Error<>(BookInListErrors.LIST_NOT_FOUND);
         }
-        BookInList bookInList = modelMapper.map(addBookInListDto, BookInList.class);
+        BookInList bookInList = modelMapper.map(
+            addBookInListDto,
+            BookInList.class
+        );
         bookInList.setUid(uid);
         bookInList.setBooksList(list);
         BookInList savedList = bookInListRepository.save(bookInList);
@@ -39,22 +53,43 @@ public class BookInListServiceImpl implements BookInListService {
     }
 
     @Override
-    public Result<Set<BookInList>, BookInListErrors> getBooksInList(@NotNull String uid, int listId) {
-        BooksList list = booksListRepository.findFirstByListIdAndUid(listId, uid);
+    public Result<Set<BookInList>, BookInListErrors> getBooksInList(
+        @NotNull String uid,
+        int listId
+    ) {
+        BooksList list = booksListRepository.findFirstByListIdAndUid(
+            listId,
+            uid
+        );
         if (list == null) {
             return new Result.Error<>(BookInListErrors.LIST_NOT_FOUND);
         }
-        Set<BookInList> booksInList = bookInListRepository.findByUidAndBooksListResourceId(uid, list.getResourceId());
+        Set<BookInList> booksInList = bookInListRepository.findByUidAndBooksListResourceId(
+            uid,
+            list.getResourceId()
+        );
         return new Result.Success<>(booksInList);
     }
 
     @Override
-    public Result<Void, BookInListErrors> removeBookFromList(@NotNull String uid, int listId, @NotNull String bookId) {
-        BooksList list = booksListRepository.findFirstByListIdAndUid(listId, uid);
+    public Result<Void, BookInListErrors> removeBookFromList(
+        @NotNull String uid,
+        int listId,
+        @NotNull String bookId
+    ) {
+        BooksList list = booksListRepository.findFirstByListIdAndUid(
+            listId,
+            uid
+        );
         if (list == null) {
             return new Result.Error<>(BookInListErrors.LIST_NOT_FOUND);
         }
-        long rowsDeleted = bookInListRepository.deleteByUidAndBooksListResourceIdAndBookId(uid, list.getResourceId(), bookId);
-        return rowsDeleted > 0 ? new Result.Success<>() : new Result.Error<>(BookInListErrors.BOOK_NOT_REMOVED_FROM_LIST);
+        long rowsDeleted = bookInListRepository.deleteByUidAndBooksListResourceIdAndBookId(
+            uid,
+            list.getResourceId(),
+            bookId
+        );
+        return rowsDeleted > 0 ? new Result.Success<>() : new Result.Error<>(
+            BookInListErrors.BOOK_NOT_REMOVED_FROM_LIST);
     }
 }

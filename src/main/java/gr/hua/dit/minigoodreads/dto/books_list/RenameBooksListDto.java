@@ -1,16 +1,11 @@
 package gr.hua.dit.minigoodreads.dto.books_list;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 
-public class RenameBooksListDto {
-
+public record RenameBooksListDto(
     @NotBlank(message = "New name cannot be empty")
-    private String name;
-
-    public RenameBooksListDto() {
-    }
-
-    public String getName() {
-        return name;
-    }
+    @JsonProperty("name")
+    String name
+) {
 }

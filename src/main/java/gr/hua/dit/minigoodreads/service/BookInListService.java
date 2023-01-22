@@ -9,9 +9,20 @@ import java.util.Set;
 
 public interface BookInListService {
 
-    Result<BookInList, BookInListErrors> addBookToList(@NotNull String uid, @NotNull AddBookInListDto addBookInListDto);
+    Result<BookInList, BookInListErrors> addBookToList(
+        @NotNull String uid,
+        int listId,
+        @NotNull AddBookInListDto addBookInListDto
+    );
 
-    Result<Set<BookInList>, BookInListErrors> getBooksInList(@NotNull String uid, int listId);
+    Result<Set<BookInList>, BookInListErrors> getBooksInList(
+        @NotNull String uid,
+        int listId
+    );
 
-    Result<Void, BookInListErrors> removeBookFromList(@NotNull String uid, int listId, @NotNull String bookId);
+    Result<Void, BookInListErrors> removeBookFromList(
+        @NotNull String uid,
+        int listId,
+        @NotNull String bookId
+    );
 }
