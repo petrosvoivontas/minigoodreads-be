@@ -4,7 +4,9 @@ services:
   keycloak:
     container_name: "minigoodreads_keycloak"
     hostname: "minigoodreads_keycloak"
-    image: "quay.io/keycloak/keycloak:20.0"
+    image: "minigoodreads/keycloak:20.0"
+    build:
+      context: docker/keycloak
     depends_on:
       mysql:
         condition: service_healthy
@@ -18,14 +20,13 @@ services:
       KC_DB_URL_DATABASE: "keycloak"
       KC_DB_USERNAME: "keycloak"
       KC_DB_PASSWORD: "keycloak"
-    command: "start-dev"
+    command: "start-dev --import-realm"
   mysql:
     container_name: "minigoodreads_mysql"
     hostname: "minigoodreads_mysql"
     image: "minigoodreads/mysql-server:8.0.32"
     build:
       context: docker/mysql
-      dockerfile: Dockerfile
     command: "--default-authentication-plugin=mysql_native_password"
     restart: always
     volumes:
