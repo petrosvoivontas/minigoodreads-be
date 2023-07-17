@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/progress/{bookId}")
+@RequestMapping("/api/progress/{bookId}")
 public class ReadingProgressController extends BaseController {
 
     private final ReadingProgressService readingProgressService;

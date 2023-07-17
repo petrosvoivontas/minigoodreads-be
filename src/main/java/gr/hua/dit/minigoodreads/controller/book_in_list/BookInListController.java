@@ -19,7 +19,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/lists/{listId}/books")
+@RequestMapping("/api/lists/{listId}/books")
 public class BookInListController extends BaseController {
 
     private final BookInListService service;
