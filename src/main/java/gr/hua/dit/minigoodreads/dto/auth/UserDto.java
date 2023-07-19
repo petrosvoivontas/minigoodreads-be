@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public record UserLoginResultDto(
+public record UserDto(
 	@JsonProperty("username")
 	String username,
 	@JsonProperty("roles")
