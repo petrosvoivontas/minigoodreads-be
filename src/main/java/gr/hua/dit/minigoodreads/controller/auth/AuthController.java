@@ -5,7 +5,6 @@ import gr.hua.dit.minigoodreads.controller.ResponseWrapper;
 import gr.hua.dit.minigoodreads.dto.auth.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -25,13 +24,11 @@ public class AuthController extends BaseController {
 
 	private final JdbcUserDetailsManager jdbcUserDetailsManager;
 	private final PasswordEncoder passwordEncoder;
-	private final AuthenticationManager authenticationManager;
 
 	@Autowired
-	public AuthController(JdbcUserDetailsManager jdbcUserDetailsManager, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+	public AuthController(JdbcUserDetailsManager jdbcUserDetailsManager, PasswordEncoder passwordEncoder) {
 		this.jdbcUserDetailsManager = jdbcUserDetailsManager;
 		this.passwordEncoder = passwordEncoder;
-		this.authenticationManager = authenticationManager;
 	}
 
 	@PostMapping("/register")
