@@ -1,8 +1,8 @@
 package gr.hua.dit.minigoodreads.entity;
 
-import jakarta.persistence.*;
 import org.jetbrains.annotations.NotNull;
 
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -23,7 +23,7 @@ public class BooksList implements Comparable<BooksList> {
 
     @Id
     @Column(name = "resource_id", length = 40)
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String resourceId;
 
     @Column(name = "list_id", columnDefinition = "SMALLINT", nullable = false)

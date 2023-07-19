@@ -1,7 +1,6 @@
 package gr.hua.dit.minigoodreads.entity;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -16,7 +15,7 @@ public class BookInList {
 
     @Id
     @Column(name = "resource_id", length = 40)
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String resourceId;
 
     @Column(name = "uid", length = 40, nullable = false)

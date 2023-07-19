@@ -8,11 +8,11 @@ import gr.hua.dit.minigoodreads.dto.books_list.RenameBooksListDto;
 import gr.hua.dit.minigoodreads.entity.BooksList;
 import gr.hua.dit.minigoodreads.service.BooksListService;
 import gr.hua.dit.minigoodreads.service.Result;
-import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
