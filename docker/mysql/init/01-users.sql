@@ -18,3 +18,9 @@ CREATE TABLE IF NOT EXISTS authorities
     unique (username, authority),
     CONSTRAINT fk_authorities_users FOREIGN KEY (username) REFERENCES users (username)
 );
+
+INSERT INTO users
+VALUES ('admin', 'admin', true);
+
+INSERT INTO authorities
+VALUES ('admin', 'ROLE_ADMIN')
