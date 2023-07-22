@@ -1,5 +1,6 @@
 package gr.hua.dit.minigoodreads.entity;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
@@ -23,7 +24,8 @@ public class BooksList implements Comparable<BooksList> {
 
     @Id
     @Column(name = "resource_id", length = 40)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String resourceId;
 
     @Column(name = "list_id", columnDefinition = "SMALLINT", nullable = false)
