@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/progress/{bookId}")
@@ -40,11 +41,12 @@ public class ReadingProgressController extends BaseController {
 
 	@GetMapping
 	public ResponseEntity<ResponseWrapper<GetReadingProgressDto>> getProgress(
-		@PathVariable("bookId") String bookId
+		@PathVariable("bookId") String bookId,
+		Principal principal
 	) {
 		Result<ReadingProgress, ReadingProgressErrors> result = readingProgressService.getReadingProgress(
 			bookId,
-			"uid"
+			principal.getName()
 		);
 		return switch (result) {
 			case Result.Success<ReadingProgress, ReadingProgressErrors> success -> handleGetProgressSuccess(success);
@@ -55,12 +57,13 @@ public class ReadingProgressController extends BaseController {
 	@PatchMapping
 	public ResponseEntity<Void> updateProgress(
 		@PathVariable("bookId") String bookId,
-		@Valid @RequestBody UpdateReadingProgressDto currentPage
+		@Valid @RequestBody UpdateReadingProgressDto currentPage,
+		Principal principal
 	) {
 		Result<Void, ReadingProgressErrors> result = readingProgressService.updateReadingProgress(
 			bookId,
 			currentPage.currentPage(),
-			"uid"
+			principal.getName()
 		);
 		return switch (result) {
 			case Result.Success<Void, ReadingProgressErrors> ignored -> ResponseEntity.ok().build();
