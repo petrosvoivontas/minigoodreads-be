@@ -1,5 +1,7 @@
 package gr.hua.dit.minigoodreads.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -11,7 +13,8 @@ public class ReadingProgress {
 
 	@Id
 	@Column(name = "resource_id", length = 40)
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(generator = "system-uuid")
+	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String resourceId;
 
 	@Column(
