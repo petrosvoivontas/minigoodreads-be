@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.net.URI;
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -36,10 +37,11 @@ public class BookInListController extends BaseController {
 	@PostMapping
 	ResponseEntity<ResponseWrapper<Void>> addBookToList(
 		@NotEmpty @PathVariable("listId") int listId,
-		@Valid @RequestBody AddBookInListDto requestBody
+		@Valid @RequestBody AddBookInListDto requestBody,
+		Principal principal
 	) {
 		Result<BookInList, BookInListErrors> result = service.addBookToList(
-			"uid",
+			principal.getName(),
 			listId,
 			requestBody
 		);
@@ -51,12 +53,11 @@ public class BookInListController extends BaseController {
 
 	@GetMapping
 	ResponseEntity<ResponseWrapper<Set<GetBookInListDto>>> getBooksInList(
-		@NotEmpty @PathVariable(
-			"listId"
-		) int listId
+		@NotEmpty @PathVariable("listId") int listId,
+		Principal principal
 	) {
 		Result<Set<BookInList>, BookInListErrors> result = service.getBooksInList(
-			"uid",
+			principal.getName(),
 			listId
 		);
 		return switch (result) {
@@ -68,10 +69,11 @@ public class BookInListController extends BaseController {
 	@DeleteMapping("/{bookId}")
 	ResponseEntity<Void> removeBookFromList(
 		@NotEmpty @PathVariable("listId") int listId,
-		@NotEmpty @PathVariable("bookId") String bookId
+		@NotEmpty @PathVariable("bookId") String bookId,
+		Principal principal
 	) {
 		Result<Void, BookInListErrors> result = service.removeBookFromList(
-			"uid",
+			principal.getName(),
 			listId,
 			bookId
 		);
