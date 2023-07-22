@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/event")
@@ -23,8 +24,8 @@ public class EventController extends BaseController {
 	}
 
 	@PostMapping
-	ResponseEntity<Void> postEvent(@Valid @RequestBody PostEventDto dto) {
-		Result<Void, EventErrors> result = eventService.postEvent(dto);
+	ResponseEntity<Void> postEvent(@Valid @RequestBody PostEventDto dto, Principal principal) {
+		Result<Void, EventErrors> result = eventService.postEvent(dto, principal.getName());
 		return switch (result) {
 			case Result.Success<Void, EventErrors> ignored -> ResponseEntity.ok().build();
 			case Result.Error<Void, EventErrors> error -> throw handleError(error.getError());

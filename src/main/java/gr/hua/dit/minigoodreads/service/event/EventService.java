@@ -6,5 +6,5 @@ import gr.hua.dit.minigoodreads.service.Result;
 
 public interface EventService {
 
-    Result<Void, EventErrors> postEvent(PostEventDto dto);
+    Result<Void, EventErrors> postEvent(PostEventDto dto, String username);
 }

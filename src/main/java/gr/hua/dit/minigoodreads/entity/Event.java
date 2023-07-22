@@ -1,5 +1,7 @@
 package gr.hua.dit.minigoodreads.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -9,17 +11,16 @@ public class Event {
 
 	@Id
 	@Column(name = "resource_id", length = 40)
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(generator = "system-uuid")
+	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String resourceId;
 
 	@Column(name = "uid", length = 40, nullable = false)
 	private String uid;
 
-	@Column(name = "event_title", nullable = false)
-	private String eventTitle;
-
-	@Column(name = "event_subtitle", nullable = false)
-	private String eventSubtitle;
+	@Column(name = "event_name", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private EventNames eventName;
 
 	@Column(name = "list_resource_id", columnDefinition = "SMALLINT", length = 40)
 	private Integer listId;
@@ -44,15 +45,13 @@ public class Event {
 
 	public Event(
 		String uid,
-		String eventTitle,
-		String eventSubtitle,
+		EventNames eventName,
 		Integer listId,
 		String bookId,
 		String imageUrl
 	) {
 		this.uid = uid;
-		this.eventTitle = eventTitle;
-		this.eventSubtitle = eventSubtitle;
+		this.eventName = eventName;
 		this.listId = listId;
 		this.bookId = bookId;
 		this.imageUrl = imageUrl;
