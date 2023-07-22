@@ -32,7 +32,7 @@ public class BooksListController extends BaseController {
 
 	@GetMapping
 	ResponseEntity<ResponseWrapper<List<GetBooksListDto>>> getAll(Principal principal) {
-		List<GetBooksListDto> lists = booksListService.getListsForUser("uid")
+		List<GetBooksListDto> lists = booksListService.getListsForUser(principal.getName())
 			.getData()
 			.stream()
 			.map(list -> modelMapper.map(list, GetBooksListDto.class))
@@ -51,9 +51,12 @@ public class BooksListController extends BaseController {
 		consumes = "application/json",
 		produces = "application/json"
 	)
-	ResponseEntity<ResponseWrapper<GetBooksListDto>> postBooksList(@Valid @RequestBody CreateBooksListDto booksListDto) {
+	ResponseEntity<ResponseWrapper<GetBooksListDto>> postBooksList(
+		@Valid @RequestBody CreateBooksListDto booksListDto,
+		Principal principal
+	) {
 		String listName = booksListDto.name().trim();
-		BooksList list = new BooksList("uid", listName);
+		BooksList list = new BooksList(principal.getName(), listName);
 		Result<BooksList, BooksListErrors> result = booksListService.saveList(list);
 		return switch (result) {
 			case Result.Success<BooksList, BooksListErrors> s -> handleSaveListSuccess(s);
@@ -65,8 +68,12 @@ public class BooksListController extends BaseController {
 		value = "/{id}",
 		consumes = "application/json"
 	)
-	ResponseEntity<Void> renameList(@PathVariable("id") int listId, @Valid @RequestBody RenameBooksListDto renameBooksListDto) {
-		Result<Void, BooksListErrors> result = booksListService.renameList(listId, "uid", renameBooksListDto.name());
+	ResponseEntity<Void> renameList(
+		@PathVariable("id") int listId,
+		@Valid @RequestBody RenameBooksListDto renameBooksListDto,
+		Principal principal
+	) {
+		Result<Void, BooksListErrors> result = booksListService.renameList(listId, principal.getName(), renameBooksListDto.name());
 		return switch (result) {
 			case Result.Success<Void, BooksListErrors> ignored -> ResponseEntity.noContent().build();
 			case Result.Error<Void, BooksListErrors> error -> throw handleError(error.getError());
@@ -74,8 +81,11 @@ public class BooksListController extends BaseController {
 	}
 
 	@DeleteMapping("/{id}")
-	ResponseEntity<Void> deleteList(@PathVariable("id") int listId) {
-		Result<Void, BooksListErrors> result = booksListService.deleteList(listId, "uid");
+	ResponseEntity<Void> deleteList(
+		@PathVariable("id") int listId,
+		Principal principal
+	) {
+		Result<Void, BooksListErrors> result = booksListService.deleteList(listId, principal.getName());
 		return switch (result) {
 			case Result.Success<Void, BooksListErrors> ignored -> ResponseEntity.ok().build();
 			case Result.Error<Void, BooksListErrors> error -> throw handleError(error.getError());
