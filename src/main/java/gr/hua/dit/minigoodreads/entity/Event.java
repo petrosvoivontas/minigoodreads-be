@@ -56,4 +56,24 @@ public class Event {
 		this.bookId = bookId;
 		this.imageUrl = imageUrl;
 	}
+
+	public EventNames getEventName() {
+		return eventName;
+	}
+
+	public Integer getListId() {
+		return listId;
+	}
+
+	public String getBookId() {
+		return bookId;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public Date getInsertTs() {
+		return insertTs;
+	}
 }

@@ -1,6 +1,7 @@
 package gr.hua.dit.minigoodreads.service.event;
 
 import gr.hua.dit.minigoodreads.controller.event.EventErrors;
+import gr.hua.dit.minigoodreads.dto.event.GetEventDto;
 import gr.hua.dit.minigoodreads.dto.event.PostEventDto;
 import gr.hua.dit.minigoodreads.entity.Event;
 import gr.hua.dit.minigoodreads.entity.EventNames;
@@ -8,18 +9,24 @@ import gr.hua.dit.minigoodreads.events.EventConstants;
 import gr.hua.dit.minigoodreads.repository.EventRepository;
 import gr.hua.dit.minigoodreads.service.Result;
 import org.jetbrains.annotations.Nullable;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class EventServiceImpl implements EventService {
 
 	private final EventRepository eventRepository;
+	private final ModelMapper modelMapper;
 
-	public EventServiceImpl(EventRepository eventRepository) {
+	public EventServiceImpl(EventRepository eventRepository, ModelMapper modelMapper) {
 		this.eventRepository = eventRepository;
+		this.modelMapper = modelMapper;
 	}
 
 	@Nullable
@@ -150,5 +157,15 @@ public class EventServiceImpl implements EventService {
 		}
 		eventRepository.save(event);
 		return new Result.Success<>();
+	}
+
+	@Override
+	public Result<List<GetEventDto>, EventErrors> getEvents(String username) {
+		Set<Event> events = eventRepository.findByUid(username);
+		List<GetEventDto> eventDtoList = events
+			.stream()
+			.map(event -> modelMapper.map(event, GetEventDto.class))
+			.collect(Collectors.toList());
+		return new Result.Success<>(eventDtoList);
 	}
 }
