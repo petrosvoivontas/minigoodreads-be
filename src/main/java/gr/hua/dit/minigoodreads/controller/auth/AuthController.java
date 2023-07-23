@@ -16,6 +16,7 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class AuthController extends BaseController {
 	}
 
 	@PostMapping("/register")
-	ResponseEntity<ResponseWrapper<Void>> register(@RequestBody UserRegistrationDto userRegistration) {
+	ResponseEntity<ResponseWrapper<Void>> register(@Valid @RequestBody UserRegistrationDto userRegistration) {
 		// check if user already exists
 		if (jdbcUserDetailsManager.userExists(userRegistration.username())) {
 			throw handleError(AuthErrors.USERNAME_EXISTS);
