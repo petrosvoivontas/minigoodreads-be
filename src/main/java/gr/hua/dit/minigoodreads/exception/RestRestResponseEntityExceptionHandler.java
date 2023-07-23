@@ -24,18 +24,12 @@ public class RestRestResponseEntityExceptionHandler extends ResponseEntityExcept
 
 	private final MessageSource messageSource;
 
-	private String defaultInvalidArgErrorMessage;
-
 	public RestRestResponseEntityExceptionHandler(MessageSource messageSource) {
 		this.messageSource = messageSource;
 	}
 
 	private String getDefaultInvalidArgErrorMessage(String fieldName) {
-		if (defaultInvalidArgErrorMessage != null) {
-			return defaultInvalidArgErrorMessage;
-		}
-		defaultInvalidArgErrorMessage = messageSource.getMessage(DEFAULT_INVALID_ARG_MESSAGE_CODE, new String[]{fieldName}, Locale.getDefault());
-		return defaultInvalidArgErrorMessage;
+		return messageSource.getMessage(DEFAULT_INVALID_ARG_MESSAGE_CODE, new String[]{fieldName}, Locale.getDefault());
 	}
 
 	@Override
@@ -49,13 +43,7 @@ public class RestRestResponseEntityExceptionHandler extends ResponseEntityExcept
 			.getFieldErrors()
 			.stream()
 			.findFirst()
-			.map(fieldError -> {
-				String message = fieldError.getDefaultMessage();
-				if (message == null) {
-					message = getDefaultInvalidArgErrorMessage(fieldError.getField());
-				}
-				return message;
-			}).get();
+			.map(fieldError -> getDefaultInvalidArgErrorMessage(fieldError.getField())).get();
 		ErrorResponseBody responseBody = new ErrorResponseBody(INVALID_ARG_ERROR_CODE, errorMessage);
 		return new ResponseEntity<>(responseBody, headers, HttpStatus.BAD_REQUEST);
 	}
