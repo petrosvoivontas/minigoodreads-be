@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class AuthController extends BaseController {
 
 	@Secured("ROLE_ADMIN")
 	@PatchMapping("/{username}")
-	ResponseEntity<ResponseWrapper<UserDto>> changeEnabledStatus(@PathVariable("username") String username) {
+	ResponseEntity<ResponseWrapper<UserDto>> changeEnabledStatus(@NotEmpty @PathVariable("username") String username) {
 		// retrieve userDetails for the given username
 		UserDetails userDetails = jdbcUserDetailsManager.loadUserByUsername(username);
 
