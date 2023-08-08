@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +56,12 @@ public class AuthController extends BaseController {
 		);
 		jdbcUserDetailsManager.createUser(user);
 		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping("/login")
+	ResponseEntity<ResponseWrapper<UserDto>> login(Principal principal) {
+		UserDetails userDetails = jdbcUserDetailsManager.loadUserByUsername(principal.getName());
+		return ResponseEntity.ok(new ResponseWrapper<>(mapToUserDto(userDetails)));
 	}
 
 	@Secured("ROLE_ADMIN")
