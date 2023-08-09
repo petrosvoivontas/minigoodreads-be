@@ -24,6 +24,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/api/auth")
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 public class AuthController extends BaseController {
 
 	private final JdbcUserDetailsManager jdbcUserDetailsManager;
