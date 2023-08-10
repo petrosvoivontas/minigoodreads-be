@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/lists")
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 public class BooksListController extends BaseController {
 
 	private final BooksListService booksListService;
