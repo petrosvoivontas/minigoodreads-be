@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/lists/{listId}/books")
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 public class BookInListController extends BaseController {
 
 	private final BookInListService service;

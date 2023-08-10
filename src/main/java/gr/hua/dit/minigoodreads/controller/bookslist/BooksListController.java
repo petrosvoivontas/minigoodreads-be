@@ -20,7 +20,11 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/lists")
-@CrossOrigin(originPatterns = "*", allowCredentials = "true")
+@CrossOrigin(
+	originPatterns = "*",
+	allowCredentials = "true",
+	methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PATCH, RequestMethod.DELETE}
+)
 public class BooksListController extends BaseController {
 
 	private final BooksListService booksListService;
