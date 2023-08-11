@@ -16,6 +16,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/progress/{bookId}")
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 public class ReadingProgressController extends BaseController {
 
 	private final ReadingProgressService readingProgressService;
