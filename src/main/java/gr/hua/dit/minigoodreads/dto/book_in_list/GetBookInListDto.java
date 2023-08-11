@@ -7,6 +7,7 @@ public record GetBookInListDto(
     @JsonProperty("coverImageUrl") String coverImageUrl,
     @JsonProperty("bookTitle") String bookTitle,
     @JsonProperty("bookAuthor") String bookAuthor,
+	@JsonProperty("pageCount") int pageCount,
     @JsonProperty("insertTs") long insertTs
 ) {
 }

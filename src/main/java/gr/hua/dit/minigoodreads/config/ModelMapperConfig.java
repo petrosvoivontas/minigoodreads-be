@@ -41,7 +41,8 @@ public class ModelMapperConfig {
 				source.bookId(),
 				source.coverImageUrl(),
 				source.bookTitle(),
-				source.bookAuthor()
+				source.bookAuthor(),
+				source.pageCount()
 			);
 		});
 
@@ -55,6 +56,7 @@ public class ModelMapperConfig {
 				source.getCoverImageUrl(),
 				source.getBookTitle(),
 				source.getBookAuthor(),
+				source.getPageCount(),
 				source.getInsertTs().getTime()
 			);
 		});

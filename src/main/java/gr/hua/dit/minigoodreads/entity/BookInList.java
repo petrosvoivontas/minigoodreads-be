@@ -36,6 +36,9 @@ public class BookInList {
 	@Column(name = "book_author")
 	private String bookAuthor;
 
+	@Column(name = "page_count")
+	private int pageCount;
+
 	@Column(name = "insert_ts")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date insertTs;
@@ -58,12 +61,14 @@ public class BookInList {
 		String bookId,
 		String coverImageUrl,
 		String bookTitle,
-		String bookAuthor
+		String bookAuthor,
+		int pageCount
 	) {
 		this.bookId = bookId;
 		this.coverImageUrl = coverImageUrl;
 		this.bookTitle = bookTitle;
 		this.bookAuthor = bookAuthor;
+		this.pageCount = pageCount;
 	}
 
 	@PrePersist
@@ -93,6 +98,10 @@ public class BookInList {
 
 	public String getBookAuthor() {
 		return bookAuthor;
+	}
+
+	public int getPageCount() {
+		return pageCount;
 	}
 
 	public Date getInsertTs() {
