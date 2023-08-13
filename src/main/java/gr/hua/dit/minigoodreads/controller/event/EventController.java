@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/event")
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 public class EventController extends BaseController {
 
 	private final EventService eventService;

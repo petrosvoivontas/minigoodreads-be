@@ -22,14 +22,8 @@ public class Event {
 	@Enumerated(EnumType.STRING)
 	private EventNames eventName;
 
-	@Column(name = "list_resource_id", columnDefinition = "SMALLINT", length = 40)
-	private Integer listId;
-
-	@Column(name = "book_id", length = 100)
-	private String bookId;
-
-	@Column(name = "image_url")
-	private String imageUrl;
+	@Column(name = "event_params")
+	private String eventParams;
 
 	@Column(name = "insert_ts", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -46,31 +40,19 @@ public class Event {
 	public Event(
 		String uid,
 		EventNames eventName,
-		Integer listId,
-		String bookId,
-		String imageUrl
+		String eventParams
 	) {
 		this.uid = uid;
 		this.eventName = eventName;
-		this.listId = listId;
-		this.bookId = bookId;
-		this.imageUrl = imageUrl;
+		this.eventParams = eventParams;
 	}
 
 	public EventNames getEventName() {
 		return eventName;
 	}
 
-	public Integer getListId() {
-		return listId;
-	}
-
-	public String getBookId() {
-		return bookId;
-	}
-
-	public String getImageUrl() {
-		return imageUrl;
+	public String getEventParams() {
+		return eventParams;
 	}
 
 	public Date getInsertTs() {

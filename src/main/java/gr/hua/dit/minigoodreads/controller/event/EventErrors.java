@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 
 public enum EventErrors implements RestError {
+    INVALID_EVENT_NAME(HttpStatus.BAD_REQUEST, "event.name.invalid"),
     INVALID_EVENT_PARAMS(HttpStatus.BAD_REQUEST, "event.params.invalid");
 
     private final HttpStatus httpStatus;

@@ -11,7 +11,6 @@ public record PostEventDto(
 
 	@StringRange(
 		range = {
-			EventConstants.EVENT_BOOK_SEARCH,
 			EventConstants.EVENT_LIST_CREATE,
 			EventConstants.EVENT_LIST_DELETE,
 			EventConstants.EVENT_LIST_RENAME,

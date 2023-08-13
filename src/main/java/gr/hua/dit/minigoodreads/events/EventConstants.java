@@ -3,8 +3,6 @@ package gr.hua.dit.minigoodreads.events;
 public class EventConstants {
 
     // region event types
-    public static final String EVENT_BOOK_SEARCH = "book_search";
-
     public static final String EVENT_LIST_CREATE = "list_create";
     public static final String EVENT_LIST_DELETE = "list_delete";
     public static final String EVENT_LIST_RENAME = "list_rename";
