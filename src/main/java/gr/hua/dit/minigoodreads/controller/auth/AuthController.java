@@ -4,6 +4,7 @@ import gr.hua.dit.minigoodreads.controller.BaseController;
 import gr.hua.dit.minigoodreads.controller.ResponseWrapper;
 import gr.hua.dit.minigoodreads.dto.auth.UserDto;
 import gr.hua.dit.minigoodreads.dto.auth.UserRegistrationDto;
+import gr.hua.dit.minigoodreads.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -29,16 +31,22 @@ public class AuthController extends BaseController {
 
 	private final JdbcUserDetailsManager jdbcUserDetailsManager;
 	private final PasswordEncoder passwordEncoder;
+	private final UsersRepository usersRepository;
 
 	@Autowired
-	public AuthController(JdbcUserDetailsManager jdbcUserDetailsManager, PasswordEncoder passwordEncoder) {
+	public AuthController(JdbcUserDetailsManager jdbcUserDetailsManager, PasswordEncoder passwordEncoder, UsersRepository usersRepository) {
 		this.jdbcUserDetailsManager = jdbcUserDetailsManager;
 		this.passwordEncoder = passwordEncoder;
+		this.usersRepository = usersRepository;
 	}
 
 	private UserDto mapToUserDto(UserDetails userDetails) {
 		List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 		return new UserDto(userDetails.getUsername(), roles, userDetails.isEnabled());
+	}
+
+	private UserDto mapUserToUserDto(gr.hua.dit.minigoodreads.entity.User user) {
+		return new UserDto(user.getUsername(), Collections.emptyList(), user.isEnabled());
 	}
 
 	@PostMapping("/register")
@@ -63,6 +71,14 @@ public class AuthController extends BaseController {
 	ResponseEntity<ResponseWrapper<UserDto>> login(Principal principal) {
 		UserDetails userDetails = jdbcUserDetailsManager.loadUserByUsername(principal.getName());
 		return ResponseEntity.ok(new ResponseWrapper<>(mapToUserDto(userDetails)));
+	}
+
+	@Secured("ROLE_ADMIN")
+	@GetMapping("/users")
+	ResponseEntity<ResponseWrapper<List<UserDto>>> getAllUsers() {
+		List<gr.hua.dit.minigoodreads.entity.User> users = usersRepository.getAllRegularUsers();
+		List<UserDto> responseBody = users.stream().map(this::mapUserToUserDto).toList();
+		return ResponseEntity.ok(new ResponseWrapper<>(responseBody));
 	}
 
 	@Secured("ROLE_ADMIN")
