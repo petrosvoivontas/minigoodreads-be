@@ -67,6 +67,25 @@ public class AuthController extends BaseController {
 		return ResponseEntity.ok().build();
 	}
 
+	@Secured("ROLE_ADMIN")
+	@PostMapping("/admin")
+	ResponseEntity<ResponseWrapper<Void>> addAdmin(@Valid @RequestBody UserRegistrationDto userRegistration) {
+		// check if user already exists
+		if (jdbcUserDetailsManager.userExists(userRegistration.username())) {
+			throw handleError(AuthErrors.USERNAME_EXISTS);
+		}
+
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority(Roles.ADMIN.getAuthority()));
+		User user = new User(
+			userRegistration.username(),
+			passwordEncoder.encode(userRegistration.password()),
+			authorities
+		);
+		jdbcUserDetailsManager.createUser(user);
+		return ResponseEntity.ok().build();
+	}
+
 	@GetMapping("/login")
 	ResponseEntity<ResponseWrapper<UserDto>> login(Principal principal) {
 		UserDetails userDetails = jdbcUserDetailsManager.loadUserByUsername(principal.getName());
