@@ -66,6 +66,7 @@
     </dependencies>
 
     <build>
+        <finalName>minigoodreads</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
