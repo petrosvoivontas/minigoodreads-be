@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS authorities
 );
 
 INSERT INTO users
-VALUES ('admin', 'admin', true);
+VALUES ('admin', '$2a$12$0lG8b6eAn4VSsqdY8ZXAKuBDOU/VwmKjPeWoWijLsaOWA4BDTuMmW', true);
 
 INSERT INTO authorities
 VALUES ('admin', 'ROLE_ADMIN')
