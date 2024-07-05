@@ -16,6 +16,20 @@ services:
     environment:
       MYSQL_DATABASE: "minigoodreads"
       MYSQL_ROOT_PASSWORD: "root"
+  minigoodreads:
+    container_name: "minigoodreads_be"
+    hostname: "minigoodreads_be"
+    image: "minigoodreads/be:1.0.0"
+    build:
+      context: .
+      dockerfile: docker/minigoodreads/Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      MYSQL_HOST: "minigoodreads_mysql"
+      DB_NAME: "minigoodreads"
+      DB_USERNAME: "minigoodreads"
+      DB_PASS: "minigoodreads"
 
 networks:
   default:
