@@ -23,6 +23,8 @@ RUN ./mvnw package -DskipTests
 # Use a smaller base image for runtime
 FROM eclipse-temurin:18-jre-focal
 
+LABEL org.opencontainers.image.source https://github.com/petrosvoivontas/minigoodreads-be
+
 # Set the working directory inside the container
 WORKDIR /app
 
