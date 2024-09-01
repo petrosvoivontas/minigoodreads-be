@@ -4,6 +4,8 @@ CREATE
 GRANT ALL PRIVILEGES ON *.* TO
     'minigoodreads'@'%';
 
+USE minigoodreads;
+
 CREATE TABLE users
 (
     username VARCHAR(50) PRIMARY KEY,
