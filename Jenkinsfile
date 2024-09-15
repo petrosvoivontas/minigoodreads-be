@@ -39,8 +39,8 @@ pipeline {
             }
             steps {
                 ansiblePlaybook(
-                        playbook: '~/workspace/minigoodreads-ansible/playbooks/deploy-minigoodreads-be-k8s.yaml',
-                        inventory: '~/workspace/minigoodreads-ansible/hosts.yaml',
+                        playbook: '/var/lib/jenkins/workspace/minigoodreads-ansible/playbooks/deploy-minigoodreads-be-k8s.yaml',
+                        inventory: '/var/lib/jenkins/workspace/minigoodreads-ansible/hosts.yaml',
                         extraVars: [
                                 minigoodreads_be_version: env.MINIGOODREADS_VERSION
                         ]
