@@ -21,5 +21,30 @@ pipeline {
                 '''
             }
         }
+        stage('Install ansible prerequisites') {
+            steps {
+                sh '''
+                    ansible-galaxy collection install kubernetes.core
+                '''
+            }
+        }
+        stage('Init ansible workspace') {
+            steps {
+                build job: 'minigoodreads-ansible'
+            }
+        }
+        stage('Deploy to k8s') {
+            environment {
+                MINIGOODREADS_VERSION = env.HEAD_COMMIT.toString() + '-' + env.$BUILD_ID.toString()
+            }
+            steps {
+                ansiblePlaybook('~/workspace/minigoodreads-ansible/playbooks/deploy-minigoodreads-be-k8s.yaml') {
+                    inventory('~/workspace/minigoodreads-ansible/hosts.yaml')
+                    extraVars {
+                        extraVar('minigoodreads_be_version', env.MINIGOODREADS_VERSION)
+                    }
+                }
+            }
+        }
     }
 }
