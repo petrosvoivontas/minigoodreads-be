@@ -35,7 +35,7 @@ pipeline {
         }
         stage('Deploy to k8s') {
             environment {
-                MINIGOODREADS_VERSION = env.HEAD_COMMIT.toString().append('').append(env.BUILD_ID.toString())
+                MINIGOODREADS_VERSION = env.HEAD_COMMIT.toString().concat('-').concat(env.BUILD_ID.toString())
             }
             steps {
                 ansiblePlaybook('~/workspace/minigoodreads-ansible/playbooks/deploy-minigoodreads-be-k8s.yaml') {
