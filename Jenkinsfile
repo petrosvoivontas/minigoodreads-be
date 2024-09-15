@@ -9,11 +9,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'master', url: 'git@github.com:petrosvoivontas/minigoodreads-be.git'
-            }
-        }
         stage('Docker build and push') {
             steps {
                 sh '''
