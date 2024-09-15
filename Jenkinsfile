@@ -38,12 +38,13 @@ pipeline {
                 MINIGOODREADS_VERSION = env.HEAD_COMMIT.toString().concat('-').concat(env.BUILD_ID.toString())
             }
             steps {
-                ansiblePlaybook(playbook: '~/workspace/minigoodreads-ansible/playbooks/deploy-minigoodreads-be-k8s.yaml') {
-                    inventoryPath('~/workspace/minigoodreads-ansible/hosts.yaml')
-                    extraVars {
-                        extraVar('minigoodreads_be_version', env.MINIGOODREADS_VERSION)
-                    }
-                }
+                ansiblePlaybook(
+                        playbook: '~/workspace/minigoodreads-ansible/playbooks/deploy-minigoodreads-be-k8s.yaml',
+                        inventory: '~/workspace/minigoodreads-ansible/hosts.yaml',
+                        extraVars: [
+                                minigoodreads_be_version: env.MINIGOODREADS_VERSION
+                        ]
+                )
             }
         }
     }
