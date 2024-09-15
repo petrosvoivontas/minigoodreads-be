@@ -35,7 +35,7 @@ pipeline {
         }
         stage('Deploy to k8s') {
             environment {
-                MINIGOODREADS_VERSION = sh(script: 'git rev-parse --short HEAD', returnStdout: true).concat('-').concat(env.BUILD_ID.toString())
+                MINIGOODREADS_VERSION = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim().concat('-').concat(env.BUILD_ID.toString())
             }
             steps {
                 ansiblePlaybook(
